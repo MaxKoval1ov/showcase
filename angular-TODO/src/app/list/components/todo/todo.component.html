@@ -1,0 +1,16 @@
+<div>{{task!.userId}}</div>
+<p (dblclick)="editModeToggle()" *ngIf="!isEditMode; else edittingMode" class="text"
+    [ngStyle]="{ 'text-decoration': task?.completed ? 'line-through' : 'none' }">{{task!.title | uppercase}}</p>
+<ng-template #edittingMode>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Task</mat-label>
+        <input matInput [formControl]="textField">
+    </mat-form-field>
+</ng-template>
+<div class="text-center">
+    <mat-checkbox [formControl]="checkedField"></mat-checkbox>
+</div>
+<button mat-raised-button color="accent" (click)="deleteTask(task!._id)">Delete</button>
+<button *ngIf="!isEditMode; else saveBtn" mat-raised-button color="primary" (click)="editModeToggle()">Edit</button>
+<ng-template #saveBtn><button mat-raised-button color="primary" (click)="editModeToggle(); updateText();">Save</button>
+</ng-template>

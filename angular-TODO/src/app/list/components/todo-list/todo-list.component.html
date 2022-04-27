@@ -1,0 +1,28 @@
+<div class="container" *ngIf="!(isLoading$ | async) ; else progress">
+  <!-- (clickEvent)="removeTask($event)" (completeEvent)="toggle($event)" (editEvent)="updateTask($event)" [ngClass]="{done:task.completed}" -->
+  <app-add-from></app-add-from>
+  <div class="sorting">
+    <mat-button-toggle-group [(ngModel)]="sortingBy" name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="userId">User id</mat-button-toggle>
+      <mat-button-toggle value="id">id</mat-button-toggle>
+      <mat-button-toggle value="title">Title</mat-button-toggle>
+    </mat-button-toggle-group>
+    <button mat-mini-fab color="primary" (click)="toggleDesc()">
+      <mat-icon>{{!isDesc ? "vertical_align_bottom": "vertical_align_top"}}</mat-icon>
+    </button>
+  </div>
+  <div class="row">
+    <div class="table">
+      <div *ngFor="let task of ( tasks$| async | orderBy: sortingBy:isDesc)">
+        <app-todo appHover [todo]="task" [ngClass]="{done:task.completed}"></app-todo>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #progress>
+  <mat-progress-spinner class="example-margin" [color]="'primary'" [mode]="'indeterminate'" [value]="50">
+  </mat-progress-spinner>
+</ng-template>
+
+componet
